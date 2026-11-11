@@ -1,0 +1,100 @@
+"""
+Unified model interface for the LLM Cost Autopilot.
+
+send_request() calls any model in the registry and always returns the same
+Response shape, whichever provider handled the request.
+"""
+
+import os
+import re
+import time
+from dataclasses import dataclass
+
+from dotenv import load_dotenv
+from google import genai
+from openai import OpenAI
+
+from registry import MODEL_REGISTRY, ModelConfig
+
+# override=True makes .env win over any older keys already set in the terminal
+load_dotenv(override=True)
+
+groq_client = OpenAI(
+    api_key=os.getenv("GROQ_API_KEY"),
+    base_url="https://api.groq.com/openai/v1",
+)
+gemini_client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+
+
+@dataclass
+class Response:
+    text: str           # The model's answer
+    input_tokens: int   # Prompt tokens, including any formatting the provider adds
+    output_tokens: int  # Answer tokens plus thinking tokens (both are billed as output)
+    latency: float      # Seconds from sending the request to getting the full answer
+    cost: float         # USD, at the paid rates in the registry
+    model_id: str       # Which model produced this answer
+
+
+def _call_groq(prompt: str, model: ModelConfig) -> tuple[str, int, int]:
+    result = groq_client.chat.completions.create(
+        model=model.model_id,
+        messages=[{"role": "user", "content": prompt}],
+    )
+    text = result.choices[0].message.content or ""
+    # Some models put their thinking inside <think> tags; keep only the final answer
+    text = re.sub(r"<think>.*?</think>", "", text, flags=re.DOTALL).strip()
+    usage = result.usage
+    if usage is None:
+        raise ValueError(f"{model.model_id} returned no token usage, so cost can't be calculated")
+    return text, usage.prompt_tokens, usage.completion_tokens
+
+
+def _call_gemini(prompt: str, model: ModelConfig) -> tuple[str, int, int]:
+    result = gemini_client.models.generate_content(model=model.model_id, contents=prompt)
+    usage = result.usage_metadata
+    if usage is None:
+        raise ValueError(f"{model.model_id} returned no token usage, so cost can't be calculated")
+    input_tokens = usage.prompt_token_count or 0
+    # Gemini reports thinking separately but bills it as output, so add it in
+    output_tokens = (usage.candidates_token_count or 0) + (usage.thoughts_token_count or 0)
+    return (result.text or "").strip(), input_tokens, output_tokens
+
+
+PROVIDER_CALLS = {
+    "groq": _call_groq,
+    "gemini": _call_gemini,
+}
+
+
+def send_request(prompt: str, model_config: ModelConfig) -> Response:
+    """Send a prompt to any registry model and return a standardized Response."""
+    call = PROVIDER_CALLS.get(model_config.provider)
+    if call is None:
+        raise ValueError(f"No caller for provider '{model_config.provider}'")
+
+    start = time.perf_counter()
+    text, input_tokens, output_tokens = call(prompt, model_config)
+    latency = time.perf_counter() - start
+
+    return Response(
+        text=text,
+        input_tokens=input_tokens,
+        output_tokens=output_tokens,
+        latency=latency,
+        cost=model_config.cost(input_tokens, output_tokens),
+        model_id=model_config.model_id,
+    )
+
+
+if __name__ == "__main__":
+    prompt = "Explain what an API is in one sentence."
+    print(f"Prompt: {prompt}\n")
+    for model in MODEL_REGISTRY.values():
+        try:
+            r = send_request(prompt, model)
+            print(f"[{model.name}] {r.text}")
+            print(f"    tokens in/out: {r.input_tokens}/{r.output_tokens} | "
+                  f"latency: {r.latency:.2f}s | cost: ${r.cost:.7f}\n")
+        except Exception as e:
+            print(f"[{model.name}] FAILED: {e}\n")

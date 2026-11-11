@@ -1,0 +1,224 @@
+prompt_id,tier,model,input_tokens,output_tokens,latency,cost,error,answer
+1,1,gpt-oss-20b,94,60,1.181,2.505e-05,,2025-03-07
+1,1,gpt-oss-120b,94,93,0.641,6.99e-05,,2025-03-07
+1,1,gemini-3.5-flash-lite,30,10,7.06,3.4e-05,,2025-03-07
+1,1,qwen3.8-27b,37,11,0.558,7.36e-05,,2025-03-07
+2,1,gpt-oss-20b,106,67,0.296,2.805e-05,,dana.reyes@brightpath.io
+2,1,gpt-oss-120b,106,48,0.556,4.47e-05,,dana.reyes@brightpath.io
+2,1,gemini-3.5-flash-lite,40,9,0.843,3.45e-05,,dana.reyes@brightpath.io
+2,1,qwen3.8-27b,49,8,0.409,7.12e-05,,dana.reyes@brightpath.io
+3,1,gpt-oss-20b,113,79,0.494,3.217e-05,,1998
+3,1,gpt-oss-120b,113,76,0.662,6.255e-05,,1998
+3,1,gemini-3.5-flash-lite,46,4,1.208,2.38e-05,,1998
+3,1,qwen3.8-27b,57,5,0.498,6.56e-05,,1998
+4,2,gpt-oss-20b,162,168,0.63,6.255e-05,,"The city library will extend weekday hours to 9 p.m. starting in April, funded by reallocating the budget from printed magazines after a survey showed 62% of residents wanted evening access. Weekend hours remain unchanged, and the three smallest branches will keep their current schedules until staffing improves."
+4,2,gpt-oss-120b,162,88,0.448,7.71e-05,,"Starting in April, the city library system will extend weekday hours to 9 p.m., a change funded by reallocating budget from printed magazines now offered digitally, after 62% of residents identified evening access as their top request. Weekend hours remain unchanged, and the three smallest branches will keep their current schedules until staffing improves."
+4,2,gemini-3.5-flash-lite,93,65,1.488,0.0001904,,"Starting in April, the city library system will extend weekday hours to 9 p.m. to meet resident demand, funded by shifting budget funds from printed to digital magazines. While weekend hours remain unchanged and three small branches will keep their current schedules pending staffing improvements, this evening access was the top request in a recent survey."
+4,2,qwen3.8-27b,104,60,0.655,0.0003232,,"Starting in April, the city library system will extend weekday hours to 9 p.m. in response to resident demand, funding the change by reallocating budget from print magazines to digital formats. While weekend and smaller branch schedules will remain unchanged for now, this adjustment aims to better accommodate evening visitors."
+5,2,gpt-oss-20b,119,113,0.513,4.282e-05,,Mixed
+5,2,gpt-oss-120b,119,54,0.757,5.025e-05,,mixed
+5,2,gemini-3.5-flash-lite,49,1,0.854,1.72e-05,,Mixed
+5,2,qwen3.8-27b,60,2,0.284,5.6e-05,,mixed
+6,2,gpt-oss-20b,119,266,0.505,8.873e-05,,"{""name"":""Priya Nair"",""role"":""Data Analyst"",""start_date"":""2026-02-03""}"
+6,2,gpt-oss-120b,119,119,0.528,8.925e-05,,"{
+  ""name"": ""Priya Nair"",
+  ""role"": ""Data Analyst"",
+  ""start_date"": ""2026-02-03""
+}"
+6,2,gemini-3.5-flash-lite,56,41,3.262,0.0001193,,"{
+  ""name"": ""Priya Nair"",
+  ""role"": ""Data Analyst"",
+  ""start_date"": ""2026-02-03""
+}"
+6,2,qwen3.8-27b,62,42,0.58,0.0002176,,"{
+  ""name"": ""Priya Nair"",
+  ""role"": ""Data Analyst"",
+  ""start_date"": ""2026-02-03""
+}"
+7,3,gpt-oss-20b,129,507,0.987,0.00016177,,"**Reasoning**
+
+1. **First segment**  
+   - Distance = 210 km, speed = 84 km/h  
+   - Time = \( \frac{210}{84} = 2.5\) h = 2 h 30 min  
+   - 9:40 am + 2 h 30 min → 12:10 pm
+
+2. **Stop**  
+   - Wait 25 min → departure at 12:35 pm
+
+3. **Second segment**  
+   - Distance = 96 km, speed = 64 km/h  
+   - Time = \( \frac{96}{64} = 1.5\) h = 1 h 30 min  
+   - 12:35 pm + 1 h 30 min → 2:05 pm
+
+**Final arrival time: 2:05 p.m.**"
+7,3,gpt-oss-120b,129,428,1.356,0.00027615,,"**Reasoning**
+
+1. **First leg:**  
+   - Distance = 210 km, speed = 84 km/h  
+   - Time = 210 ÷ 84 = 2.5 h = 2 h 30 min  
+
+   Departure at 9:40 a.m. → 9:40 + 2 h 30 min = 12:10 p.m.
+
+2. **Waiting time:** 25 min → 12:10 + 0:25 = 12:35 p.m.
+
+3. **Second leg:**  
+   - Distance = 96 km, speed = 64 km/h  
+   - Time = 96 ÷ 64 = 1.5 h = 1 h 30 min  
+
+   12:35 p.m. + 1 h 30 min = 14:05 p.m.
+
+**Answer**
+
+The train arrives at **2:05 p.m.**."
+7,3,gemini-3.5-flash-lite,69,265,10.958,0.0006832,,"**Reasoning:**
+
+1. **First leg of the journey:**
+   * Distance = 210 km
+   * Speed = 84 km/h
+   * Time taken = $\frac{210}{84} = 2.5$ hours (or 2 hours and 30 minutes).
+
+2. **Wait time:**
+   * The train waits for 25 minutes.
+
+3. **Second leg of the journey:**
+   * Distance = 96 km
+   * Speed = 64 km/h
+   * Time taken = $\frac{96}{64} = 1.5$ hours (or 1 hour and 30 minutes).
+
+4. **Total elapsed time:**
+   * 2 hours 30 minutes + 25 minutes + 1 hour 30 minutes = 4 hours and 25 minutes.
+
+5. **Arrival time:**
+   * Departure time = 9:40 a.m.
+   * Adding 4 hours gives 1:40 p.m.
+   * Adding the remaining 25 minutes gives 2:05 p.m.
+
+**Final Time:**
+2:05 p.m."
+7,3,qwen3.8-27b,77,738,2.568,0.0030136,,"Here is the step-by-step deduction to determine the arrival time:
+
+**Step 1: Calculate the time for the first leg of the journey.**
+The train travels 210 km at a speed of 84 km/h.
+$$ \text{Time}_1 = \frac{\text{Distance}}{\text{Speed}} = \frac{210}{84} $$
+$$ \text{Time}_1 = 2.5 \text{ hours} $$
+Converting 0.5 hours to minutes: $0.5 \times 60 = 30$ minutes.
+So, $\text{Time}_1 = 2 \text{ hours and } 30 \text{ minutes}$.
+
+**Step 2: Add the waiting time.**
+The train waits for 25 minutes.
+$$ \text{Total Time So Far} = 2 \text{ h } 30 \text{ min} + 25 \text{ min} = 2 \text{ h } 55 \text{ min} $$
+
+**Step 3: Calculate the time for the second leg of the journey.**
+The train travels 96 km at a speed of 64 km/h.
+$$ \text{Time}_2 = \frac{\text{Distance}}{\text{Speed}} = \frac{96}{64} $$
+$$ \text{Time}_2 = 1.5 \text{ hours} $$
+Converting 0.5 hours to minutes: $0.5 \times 60 = 30$ minutes.
+So, $\text{Time}_2 = 1 \text{ hour and } 30 \text{ minutes}$.
+
+**Step 4: Calculate the total travel time.**
+$$ \text{Total Time} = \text{Time}_1 + \text{Wait Time} + \text{Time}_2 $$
+$$ \text{Total Time} = 2 \text{ h } 30 \text{ min} + 25 \text{ min} + 1 \text{ h } 30 \text{ min} $$
+$$ \text{Total Time} = 3 \text{ h } 55 \text{ min} + 1 \text{ h } 30 \text{ min} $$
+$$ \text{Total Time} = 4 \text{ h } 125 \text{ min} $$
+Since 125 minutes is equal to 2 hours and 5 minutes ($125 / 60 = 2$ with a remainder of $5$):
+$$ \text{Total Time} = 4 \text{ h} + 2 \text{ h } 5 \text{ min} = 6 \text{ hours and } 5 \text{ minutes} $$
+
+**Step 5: Determine the arrival time.**
+Start Time: 9:40 a.m.
+Add Total Duration: 6 hours and 5 minutes.
+
+$$ 9:40 + 6 \text{ hours} = 15:40 \text{ (3:40 p.m.)} $$
+$$ 15:40 + 5 \text{ minutes} = 15:45 \text{ (3:45 p.m.)} $$
+
+**Final Conclusion:**
+The train arrives at **3:45 p.m.**"
+8,3,gpt-oss-20b,113,1044,1.564,0.00032167,,"With five engineers, a monolith lets you ship an MVP fast: one repository, one CI/CD pipeline, no cross‑service contracts. Costs stay low—just a single server or container. Risks are mainly technical debt and scalability limits, but the team can focus on product. Microservices add overhead: service boundaries, inter‑service contracts, API gateways, distributed tracing, and a DevOps stack. Speed drops because you spend time on infra, testing, and debugging network failures. Costs rise: multiple runtimes, more cloud spend, and tooling. Risks are higher from network latency, versioning, and operational complexity. For a first product, a monolith gives you speed, lower cost, and manageable risk; you can later slice it into services when growth demands it."
+8,3,gpt-oss-120b,113,314,1.166,0.00020535,,"**Development speed**  
+- **Monolith:** One codebase, shared libraries, and a single build/deploy pipeline → fast initial scaffolding; developers can work side‑by‑side without coordinating service contracts.  
+- **Microservices:** Need to design APIs, set up independent repositories, CI/CD pipelines, and container orchestration → slower start, but later teams can work in parallel once the platform is mature.
+
+**Cost**  
+- **Monolith:** Lower upfront infrastructure (single server/VM), fewer DevOps tools, simpler testing → cheaper for a 5‑person team.  
+- **Microservices:** Multiple runtimes, networking overhead, service discovery, monitoring, and possibly cloud‑native services → higher early‑stage spend.
+
+**Risk**  
+- **Monolith:** Tight coupling can make future refactors painful; a bug can bring down the whole app.  
+- **Microservices:** Isolation limits blast radius, but added complexity raises operational risk (network failures, version skew) and the chance of “over‑engineering” early on.
+
+**Recommendation** – Choose a **monolith** for the first product. It lets the small team ship quickly, stay within budget, and validate the market. Once the product gains traction, refactor high‑traffic domains into services as needed."
+8,3,gemini-3.5-flash-lite,45,207,3.543,0.000531,,"**Development Speed:** 
+Monolith wins early. A 5-person team can build, test, and deploy a single codebase instantly. Microservices introduce massive overhead: network latency, distributed logging, and complex CI/CD pipelines, slowing feature delivery.
+
+**Cost:** 
+Monolith is vastly cheaper. It runs on a single server and minimal cloud infrastructure. Microservices demand multiple databases, container orchestration (e.g., Kubernetes), and specialized tooling, skyrocketing AWS bills and operational costs.
+
+**Risk:** 
+Microservices create single points of failure across a distributed network, which is lethal for a tiny team without DevOps specialists. Monoliths risk scaling bottlenecks later, but failures are easier to isolate and fix.
+
+**Recommendation:** 
+**Choose the Monolith.** For a 5-person startup, survival depends on speed-to-market and capital efficiency. Build a ""modular monolith"" with clean internal boundaries. Only split into microservices if product-market fit demands it years down the road."
+8,3,qwen3.8-27b,56,199,13.445,0.0008408,,"For a 5-person startup, a **monolith** is the superior choice for its first product.
+
+**Development Speed:** Monoliths offer faster initial development. You avoid the complexity of distributed systems, API gateways, and service discovery. A single codebase allows for immediate feature iteration and easier debugging.
+
+**Cost:** Operational overhead is significantly lower. You deploy and scale a single application, reducing infrastructure complexity and cloud costs associated with managing multiple containers and networking layers.
+
+**Risk:** While microservices reduce dependencies later, they introduce significant early risks: increased complexity, potential data inconsistency, and higher debugging difficulty. For a small team, the operational burden of microservices often exceeds the benefits.
+
+**Recommendation:** Start with a well-structured monolith. Build your product, validate your market, and learn your business. Refactor into microservices only when scaling demands or team size necessitate it. Premature microservices adoption is a common trap that stalls small startups."
+9,3,gpt-oss-20b,94,688,1.159,0.00021345,,"He stands on the cliff, the sea’s roar beneath the lighthouse shore,  
+His lantern burns, a quiet promise that keeps the night aglow,  
+For this final watch he whispers, letting memories settle on the shore,  
+When sunrise cracks the horizon, the beacon’s pulse will still glow."
+9,3,gpt-oss-120b,94,237,1.297,0.0001563,,"On the cliffs he tends the waning **flame** (A)  
+The storm’s soft whisper tells him it’s **time** (B)  
+He knows the beam will blaze without his **name** (A)  
+And waves will sing his quiet, final **rhyme** (B)"
+9,3,gemini-3.5-flash-lite,26,38,6.657,0.0001028,,"The heavy glass reflects the rising sun,
+He wipes the brass and clears the heavy wick.
+His lonely watch of decades now is done,
+The final shadow fades with embers thick."
+9,3,qwen3.8-27b,36,34,0.627,0.0001648,,"The heavy lens begins to dim,
+As twilight swallows up the bay,
+I trace the hand that guided them,
+And fade into the closing day."
+10,3,gpt-oss-20b,117,367,0.601,0.00011887,,"**Key considerations**  
+- **Privacy & compliance**: Exposure of emails triggers GDPR/CCPA penalties, legal liability, and loss of trust.  
+- **Reputation**: A breach can erode client confidence and future sales.  
+- **Client impact**: Two‑week delay vs. the cost of a breach; weigh contractual penalties and goodwill.  
+- **Risk mitigation**: Patch must be fully tested, monitored, and documented.  
+- **Stakeholder communication**: Transparent updates to the client, internal teams, and legal.  
+- **Resource allocation**: Dev, QA, and security teams must focus on the fix without compromising other priorities.
+
+**Recommendation**  
+Prioritize the security fix and postpone the launch by two weeks. Notify the client immediately, explain the risk and the corrective plan, and offer a goodwill gesture (e.g., extended support or a discounted upgrade). Complete the patch, run regression and security testing, and publish a detailed post‑mortem. Once validated, proceed with launch. This protects compliance, preserves trust, and mitigates long‑term damage."
+10,3,gpt-oss-120b,117,361,0.999,0.00023415,,"**Key considerations**  
+- **Customer privacy & legal risk** – Data‑exposure may breach GDPR, CCPA, contracts, and could trigger fines or lawsuits.  
+- **Reputation impact** – A breach erodes trust with all users, not just the major client.  
+- **Scope & severity** – How many addresses are exposed, for how long, and whether the data is otherwise protected.  
+- **Contractual obligations** – The launch deadline, penalties, and any service‑level agreements with the major client.  
+- **Mitigation options** – Can a temporary workaround mask the data while the fix is built? Can the release be split into a safe core and a delayed feature?  
+- **Communication plan** – Who must be informed (internal leadership, client, customers) and when.  
+
+**Recommendation**  
+Prioritize fixing the privacy bug immediately, even if it pushes the launch back two weeks. Deploy a secure interim build or partial release if feasible, and transparently notify the major client, outlining the risk, the remediation timeline, and the steps taken to protect all users. The long‑term cost of a breach far outweighs a short‑term schedule slip."
+10,3,gemini-3.5-flash-lite,48,194,2.659,0.0004994,,"**Key Considerations:**
+1. **Legal & Compliance:** Data breaches violate privacy laws (GDPR/CCPA) and incur severe fines and liability.
+2. **Reputation & Trust:** A known pre-launch leak destroys customer trust and brand credibility.
+3. **Business Impact:** A two-week delay risks client relationship strain, financial penalties, or missed revenue.
+4. **Security Ethics:** Prioritizing speed over user data safety is fundamentally irresponsible.
+
+**Recommendation:**
+Stop the launch immediately and fix the bug. 
+
+While delaying the project will damage the client relationship in the short term, launching with a known vulnerability guarantees catastrophic reputational, legal, and financial damage. Transparently communicate the critical security issue to the client, framing the delay as a non-negotiable measure to protect their end-users and the integrity of the product. Trust is hard to rebuild once broken; a two-week delay is a manageable setback."
+10,3,qwen3.8-27b,60,218,1.11,0.00092,,"The primary considerations are **legal/compliance risk** (GDPR, CCPA), **reputational damage**, and **client trust**. Exposing customer emails is a critical security vulnerability that could trigger regulatory fines, class-action lawsuits, and immediate churn if discovered. The severity of this data breach far outweighs the penalty for a two-week launch delay.
+
+**Recommendation:**
+
+1.  **Pause the launch immediately.** Do not ship with exposed PII.
+2.  **Notify the client proactively.** Explain that a critical security fix is required to ensure their data integrity, framing it as a commitment to quality and compliance rather than a failure. Offer a clear revised timeline and mitigation plan.
+3.  **Prioritize the fix.** Allocate full resources to resolve the bug and implement security audits.
+4.  **Document the incident.** Perform a root cause analysis to prevent recurrence.
+
+Prioritizing security over the original date protects the company from existential legal and brand risks. Honesty preserves the long-term client relationship, whereas hiding it risks catastrophic backlash."
