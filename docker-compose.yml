@@ -1,0 +1,31 @@
+# Runs the API and the dashboard together, sharing one database.
+#   docker compose up --build
+# API:       http://localhost:8000
+# Dashboard: http://localhost:8501
+
+services:
+  api:
+    build: .
+    env_file: .env                   # Your API keys, read at run time (never baked into the image)
+    environment:
+      AUTOPILOT_DB: /data/autopilot.db
+    ports:
+      - "8000:8000"
+    volumes:
+      - autopilot-data:/data         # The database lives here, so it survives restarts
+
+  dashboard:
+    build: .
+    command: streamlit run dashboard.py --server.address=0.0.0.0 --server.port=8501 --server.headless=true
+    environment:
+      AUTOPILOT_DB: /data/autopilot.db   # Same database as the API; no API keys needed
+    ports:
+      - "8501:8501"
+    volumes:
+      - autopilot-data:/data
+    depends_on:
+      - api
+
+volumes:
+  autopilot-data:
+  

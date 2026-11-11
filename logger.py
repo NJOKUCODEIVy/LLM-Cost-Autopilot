@@ -6,10 +6,11 @@ autopilot.db. The verifier (Phase 3) and the dashboard (Phase 4) use it too.
 """
 
 import hashlib
+import os
 import sqlite3
 from datetime import datetime, timezone
 
-DB_FILE = "autopilot.db"
+DB_FILE = os.getenv("AUTOPILOT_DB", "autopilot.db")
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS requests (

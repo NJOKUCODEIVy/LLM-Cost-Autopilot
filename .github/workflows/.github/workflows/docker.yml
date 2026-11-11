@@ -1,0 +1,38 @@
+# Builds the Docker image on GitHub's servers on every push, then starts the
+# API and checks that /health answers. This proves the image works, even
+# though Docker can't run on the development Mac.
+name: Docker build
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-and-smoke-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the code
+        uses: actions/checkout@v4
+
+      - name: Build the image
+        run: docker build -t llm-cost-autopilot .
+
+      - name: Start the API
+        # Placeholder keys are enough: /health makes no model calls
+        run: >
+          docker run -d --name api -p 8000:8000
+          -e GROQ_API_KEY=placeholder -e GEMINI_API_KEY=placeholder
+          llm-cost-autopilot
+
+      - name: Check that /health answers
+        run: |
+          for attempt in $(seq 1 30); do
+            if curl -fs http://localhost:8000/health; then
+              echo " -> API is healthy"
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "API did not become healthy; container logs:"
+          docker logs api
+          exit 1
