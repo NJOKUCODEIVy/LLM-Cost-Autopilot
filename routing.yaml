@@ -1,0 +1,14 @@
+# Routing map: which model handles each complexity tier.
+# Change a model name here to re-route traffic. No code changes needed.
+# Every name must match a key in MODEL_REGISTRY (registry.py).
+
+tiers:
+  1: gpt-oss-20b            # Simple: cheapest model, 5/5 on easy baseline questions
+  2: gpt-oss-120b           # Moderate: cheap, fast, 5/5 in the baseline
+  3: gemini-3.5-flash-lite  # Complex: priciest model that passed the baseline, from a second provider
+
+# Used in Phase 3: if an answer fails the quality check, retry with this model
+escalation:
+  gpt-oss-20b: gpt-oss-120b
+  gpt-oss-120b: gemini-3.5-flash-lite
+  
