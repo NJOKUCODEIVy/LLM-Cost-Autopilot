@@ -12,6 +12,7 @@ from dataclasses import dataclass
 
 from dotenv import load_dotenv
 from google import genai
+from google.genai import types
 from openai import OpenAI
 
 from registry import MODEL_REGISTRY, ModelConfig
@@ -19,11 +20,21 @@ from registry import MODEL_REGISTRY, ModelConfig
 # override=True makes .env win over any older keys already set in the terminal
 load_dotenv(override=True)
 
+# Time limits: give up on a slow or overloaded provider quickly,
+# so the router can switch to a fallback model instead of hanging
 groq_client = OpenAI(
     api_key=os.getenv("GROQ_API_KEY"),
     base_url="https://api.groq.com/openai/v1",
+    timeout=30.0,   # Seconds per attempt
+    max_retries=1,  # One retry, then give up
 )
-gemini_client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+gemini_client = genai.Client(
+    api_key=os.getenv("GEMINI_API_KEY"),
+    http_options=types.HttpOptions(
+        timeout=30_000,  # Milliseconds per attempt (30 seconds)
+        retry_options=types.HttpRetryOptions(attempts=2),  # Two tries at most
+    ),
+)
 
 
 @dataclass

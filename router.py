@@ -1,15 +1,19 @@
 """
 Phase 2, Step 4: the router.
 
-Predicts a prompt's complexity tier with the trained classifier, then looks
-up which model handles that tier in routing.yaml.
+Predicts a prompt's complexity tier with the trained classifier, looks up
+which model handles that tier in routing.yaml, sends the prompt, and logs
+the request to autopilot.db.
 """
+
+import sys
 
 import joblib
 import numpy as np
 import yaml
 
 from features import extract_features
+from logger import log_request
 from providers import Response, send_request
 from registry import MODEL_REGISTRY, ModelConfig
 
@@ -22,7 +26,8 @@ def load_routing_map() -> dict:
     with open(ROUTING_FILE, encoding="utf-8") as f:
         routing = yaml.safe_load(f)
     named = list(routing["tiers"].values())
-    named += list(routing["escalation"].keys()) + list(routing["escalation"].values())
+    for section in ("fallback", "escalation"):
+        named += list(routing[section].keys()) + list(routing[section].values())
     for name in named:
         if name not in MODEL_REGISTRY:
             raise ValueError(f"routing.yaml names '{name}', which is not in MODEL_REGISTRY")
@@ -48,15 +53,30 @@ def choose_model(prompt: str) -> tuple[int, ModelConfig]:
     return tier, MODEL_REGISTRY[ROUTING["tiers"][tier]]
 
 
-def route(prompt: str) -> tuple[int, Response]:
-    """Pick the right model for a prompt, send it, and return the tier and Response."""
+def route(prompt: str) -> tuple[int, int, Response]:
+    """Pick a model, send the prompt, log it, and return (request_id, tier, Response).
+
+    If the routed model's provider fails (down, overloaded, or too slow), the
+    prompt goes to that model's fallback from routing.yaml instead.
+    """
     tier, model = choose_model(prompt)
-    return tier, send_request(prompt, model)
+    fallback_from = None
+    try:
+        response = send_request(prompt, model)
+    except Exception as error:
+        backup = MODEL_REGISTRY[ROUTING["fallback"][model.name]]
+        print(f"    {model.name} failed ({type(error).__name__}); falling back to {backup.name}")
+        fallback_from, model = model.name, backup
+        response = send_request(prompt, model)
+
+    request_id = log_request(
+        prompt, tier, model.name, response.input_tokens, response.output_tokens,
+        response.cost, response.latency, fallback_from,
+    )
+    return request_id, tier, response
 
 
 if __name__ == "__main__":
-    # New prompts the classifier has never seen. This only shows routing decisions,
-    # so it makes no API calls.
     examples = [
         "Convert 9 kilometers to miles.",
         "Extract the date from: 'The invoice was issued on 2 March 2026.'",
@@ -65,7 +85,14 @@ if __name__ == "__main__":
         "Compare renting and buying a car for a new graduate in Lagos, and recommend one.",
         "Write a short poem about rain on a tin roof with an AABB rhyme scheme.",
     ]
-    for prompt in examples:
-        tier, model = choose_model(prompt)
-        print(f"Tier {tier} -> {model.name:<22} | {prompt[:60]}")
-        
+
+    if "--send" in sys.argv:
+        # Real requests: each one is routed, answered, and logged to autopilot.db
+        for prompt in examples:
+            request_id, tier, r = route(prompt)
+            print(f"#{request_id} Tier {tier} -> {r.model_id:<22} ${r.cost:.7f} | {prompt[:45]}")
+    else:
+        # Routing decisions only: no API calls, nothing logged
+        for prompt in examples:
+            tier, model = choose_model(prompt)
+            print(f"Tier {tier} -> {model.name:<22} | {prompt[:60]}")

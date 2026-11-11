@@ -7,8 +7,14 @@ tiers:
   2: gpt-oss-120b           # Moderate: cheap, fast, 5/5 in the baseline
   3: gemini-3.5-flash-lite  # Complex: priciest model that passed the baseline, from a second provider
 
+# If a model's provider is down or overloaded, use this model instead.
+# Each fallback is on a different provider, because outages usually hit a whole provider.
+fallback:
+  gpt-oss-20b: gemini-3.5-flash-lite
+  gpt-oss-120b: gemini-3.5-flash-lite
+  gemini-3.5-flash-lite: gpt-oss-120b
+
 # Used in Phase 3: if an answer fails the quality check, retry with this model
 escalation:
   gpt-oss-20b: gpt-oss-120b
   gpt-oss-120b: gemini-3.5-flash-lite
-  
