@@ -7,3 +7,6 @@ demo.db
 demo_failures.csv
 routing_failures.csv
 complexity_classifier.previous.joblib
+data/
+loadtest.db
+load_test_progress.txt
