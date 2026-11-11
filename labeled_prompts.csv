@@ -1,0 +1,211 @@
+id,prompt,tier
+1,Convert 'march 7 2025' to YYYY-MM-DD format.,1
+2,Change this sentence to all uppercase: 'the meeting starts at noon.',1
+3,Convert 5 kilometers to miles. Reply with the number only.,1
+4,Extract the phone number from: 'Call Ahmed on 0803 555 0192 after 5pm.',1
+5,"Based on this text, which city did she move to? 'In 2019, Amara left Lagos and moved to Nairobi for work.'",1
+6,Turn this list into a comma-separated line: apples / oranges / pears / grapes,1
+7,"Remove the extra spaces from this text: 'Hello    world,   how  are you?'",1
+8,Extract all dates from this text: 'The contract starts on 4 June 2026 and ends on 3 June 2027.',1
+9,"Convert 72 degrees Fahrenheit to Celsius, rounded to one decimal place.",1
+10,"From the text below, what is the order number? 'Your order #A-58213 has shipped and will arrive Thursday.'",1
+11,"Put these names in alphabetical order: Zainab, Chidi, Bola, Emeka, Amaka",1
+12,Change this date from DD/MM/YYYY to MM/DD/YYYY: 25/12/2026,1
+13,"What price is listed in this text? 'The basic plan costs $12 per month, billed annually.'",1
+14,Convert this to title case: 'a guide to building small web apps',1
+15,Extract the company name from this email signature: 'Tunde Bakare | Head of Sales | Greenfield Logistics Ltd',1
+16,Translate 'good morning' into French.,1
+17,"How many items are in this list? milk, bread, eggs, butter, rice, beans",1
+18,Convert 3 hours and 45 minutes into minutes.,1
+19,"Based on this text, who is the author? 'The Silent River, written by Ngozi Eze, was published in 2021.'",1
+20,"Replace every comma with a semicolon in: 'red, green, blue, yellow'",1
+21,Extract the URL from this message: 'Check the docs at https://example.com/setup before installing.',1
+22,Format this number with commas as thousands separators: 4528190,1
+23,"What time does the store close, according to this text? 'Open Monday to Saturday, 9 a.m. to 7 p.m.; closed Sundays.'",1
+24,Convert this variable name to snake_case: customerFirstName,1
+25,"Write this number in words: 1,250",1
+26,Pull out the hashtags from this post: 'Great run this morning! #fitness #lagos #mondaymotivation',1
+27,"Based on the text, how many employees does the firm have? 'Founded in 2010, Brightline now employs 340 people across four offices.'",1
+28,Convert 0.75 to a percentage.,1
+29,Make this sentence past tense: 'She walks to the market.',1
+30,"Extract the first name from: 'Dr. Oluwaseun Adeyemi, MD'",1
+31,"Convert 2.5 GB to MB, using 1 GB = 1024 MB.",1
+32,"Sort these numbers from smallest to largest: 42, 7, 19, 3, 88, 25",1
+33,"From this receipt, what was the total? 'Subtotal: $45.00, Tax: $3.60, Total: $48.60'",1
+34,Change this sentence to American spelling: 'My favourite colour is blue.',1
+35,Convert 14:30 to 12-hour time.,1
+36,"Remove the duplicates from this list: cat, dog, cat, bird, dog, fish",1
+37,"What is the deadline in this email? 'Please submit your report by Friday, 14 November, at noon.'",1
+38,Turn this title into a hyphenated URL slug: 'Best Places to Eat in Abuja',1
+39,"Extract the ISBN from: 'ISBN 978-0-14-312854-0, paperback edition.'",1
+40,"Abbreviate these days to three letters: Monday, Tuesday, Wednesday",1
+41,"Here are the meeting notes: 'Attendees: Kemi, Daniel, Sara, and Musa. The team reviewed the Q3 budget, agreed to move the product launch to January, and assigned Daniel to update the vendor contracts. The next meeting is on 2 December at 10 a.m. in Room 4B.' What room is the next meeting in?",1
+42,"Read this product description and tell me the battery life: 'The Aero X2 headphones feature active noise cancellation, a foldable design, Bluetooth 5.3, and up to 40 hours of battery life on a single charge. A 10-minute charge gives 5 hours of playback. They weigh 250 grams and come in black, silver, and navy.'",1
+43,"From this policy, how many days of annual leave do new employees get? 'New employees receive 20 days of annual leave per year, rising to 25 days after three years of service. Unused leave of up to 5 days can be carried over to the next year. Sick leave is handled separately under section 4.'",1
+44,"Convert this list to a numbered list: Ada, Bayo, Chika",1
+45,What does the abbreviation 'ETA' stand for?,1
+46,"Convert 150 pounds to kilograms, rounded to the nearest whole number.",1
+47,"Extract the city names from: 'Flights now connect Accra, Kigali, and Cairo daily.'",1
+48,Change this sentence from passive to active voice: 'The report was written by Ifeoma.',1
+49,What is 15% of 200?,1
+50,"From this text, what is the Wi-Fi password? 'Guest Wi-Fi: CafeLumen, password: sunrise2026.'",1
+51,Capitalize the first letter of each sentence: 'the shop is open. we sell bread. come early.',1
+52,Convert 08:00 GMT to West Africa Time (GMT+1).,1
+53,Extract the subject line from: 'Subject: Invoice #3321 overdue. From: billing@acme.co',1
+54,Shorten this text to its first 10 words: 'The quick brown fox jumps over the lazy dog while the cat watches from the fence.',1
+55,"Based on this text, what color is the car? 'The thief escaped in a dark green sedan with a cracked rear window.'",1
+56,"Convert 1 cup to milliliters, using 1 cup = 240 ml.",1
+57,Which day of the week is mentioned here? 'Delivery is scheduled for Wednesday morning.',1
+58,Change the numbers in this sentence to digits: 'I bought three apples and twelve eggs.',1
+59,"Extract the ticker symbols from: 'Shares of AAPL and MSFT rose, while TSLA fell 2%.'",1
+60,Reverse the order of these words: 'one two three four',1
+61,What is the square root of 144?,1
+62,"From this address, what is the postcode? '12 Marina Road, Lagos Island, Lagos 101001, Nigeria'",1
+63,Convert this sentence to lowercase: 'PLEASE DO NOT DISTURB',1
+64,Count the words in this sentence: 'Small steps every day lead to big results.',1
+65,Extract the version number from: 'Update to v4.2.1 to fix the login bug.',1
+66,"Based on this schedule, when does the second session start? 'Session 1: 9:00 to 10:30. Break: 10:30 to 10:45. Session 2: 10:45 to 12:15.'",1
+67,Convert 2 weeks into hours.,1
+68,Add a full stop to the end of each item: Buy milk; Call mum; Pay rent,1
+69,What is the plural of 'analysis'?,1
+70,Extract the percentage from: 'Customer satisfaction rose to 87% this quarter.',1
+71,"Summarize this in one sentence: 'Remote work has grown steadily since 2020. Many companies now offer hybrid schedules, letting staff split time between home and office. Surveys show employees value the flexibility, though some managers worry about collaboration and training new hires.'",2
+72,"Classify the sentiment of this tweet as positive, negative, or neutral: 'The new update finally fixed the battery drain. Love it!'",2
+73,"Classify this email as spam or not spam: 'Congratulations! You have won a $1,000 gift card. Click here to claim now.'",2
+74,Rewrite this message to sound more polite: 'Send me the report now.',2
+75,Explain what a database index is in two sentences.,2
+76,"Turn this into a table with columns Name and Role: 'Ada is the designer, Bayo handles marketing, and Chika leads engineering.'",2
+77,List three pros and three cons of working from home.,2
+78,"Summarize the main point of this paragraph: 'Many small businesses fail not because of bad products but because of poor cash flow management. Late payments from customers, unexpected expenses, and over-ordering stock can drain cash quickly, even when sales look strong on paper.'",2
+79,"Classify this customer message as billing, technical issue, shipping, or other: 'My package says delivered but I never received it.'",2
+80,"Convert this sentence into JSON with the fields product, quantity, and price: 'I ordered 3 notebooks at $4 each.'",2
+81,Rewrite this for a 10-year-old: 'Photosynthesis is the process by which plants convert light energy into chemical energy stored in glucose.',2
+82,"Which topic fits this headline best: politics, sports, business, or technology? 'Startup raises $20 million to build cheaper solar batteries.'",2
+83,Explain the difference between RAM and storage in simple terms.,2
+84,Summarize these meeting notes into three bullet points: 'We discussed the new website. Design is 80% done. Development starts next week. The launch target is 15 January. Marketing needs final copy by 20 December. Budget is on track.',2
+85,"Group these foods into fruits and vegetables: carrot, mango, spinach, banana, onion, pineapple",2
+86,"Rewrite this sentence to be more concise: 'At this point in time, we are currently in the process of reviewing your application.'",2
+87,Classify the tone of this message as formal or informal: 'Hey! Can u send the files asap? thx',2
+88,Explain what an API rate limit is in one short paragraph.,2
+89,"List the key facts from this news snippet as bullet points: 'On Monday, the city council approved a plan to build 500 affordable homes in the east district. Construction will begin in March and is expected to take two years. The project will cost $60 million.'",2
+90,"Turn this recipe paragraph into a numbered list of steps: 'First boil the water, then add the pasta and cook for 10 minutes. Drain it, stir in the sauce, and serve with cheese.'",2
+91,"Classify this review's sentiment and give a one-sentence reason: 'Great location and friendly staff, but the room was noisy and the Wi-Fi kept dropping.'",2
+92,Break down the costs of running a small food stall into categories.,2
+93,Summarize the plot of Romeo and Juliet in three sentences.,2
+94,"Rewrite this email to sound more professional: 'yo, the meeting got moved to 3, dont be late'",2
+95,"Classify each of these as a question or a statement: 'Is it raining?', 'The bus is late.', 'Where are you?'",2
+96,Explain what inflation is in two sentences.,2
+97,"Create a table comparing cats and dogs on cost, space needed, and time required.",2
+98,"Summarize this complaint in one sentence for a support ticket: 'I bought the blender two weeks ago, and now it makes a grinding noise and smells like burning. I have only used it four times. I want a refund or a replacement.'",2
+99,"Categorize these expenses as fixed or variable: rent, electricity, raw materials, insurance, shipping costs",2
+100,Paraphrase this sentence: 'The early bird catches the worm.',2
+101,"Turn these notes into a short, friendly announcement: 'office closed friday, public holiday, reopen monday 9am'",2
+102,"Explain how a VPN works in plain language, in under 100 words.",2
+103,List three strengths and three weaknesses of this business idea: a mobile car-wash service that comes to customers' homes.,2
+104,"Classify these support tickets by urgency (high, medium, low): 'Site is down for all users', 'Typo on the About page', 'Password reset email is slow'",2
+105,Summarize the key differences between Python lists and tuples.,2
+106,"Convert this into a JSON object with name, age, and city: 'Musa is 29 years old and lives in Kano.'",2
+107,Rewrite this product description to sound more exciting: 'This backpack has two pockets and is waterproof.',2
+108,"What is the main argument of this paragraph? 'Cities should invest in bike lanes because they reduce traffic, cut pollution, and encourage healthier lifestyles, all at a lower cost than new roads.'",2
+109,"Sort these tasks into urgent and not urgent: pay electricity bill due today, plan next year's holiday, reply to a client waiting since yesterday, reorganize bookshelf",2
+110,Explain the difference between weather and climate in two sentences.,2
+111,"Summarize this job posting into five key requirements: 'We are hiring a junior data analyst. You should know SQL and Excel, have basic Python skills, be comfortable presenting findings to non-technical teams, and hold a degree in a quantitative field. Experience with Power BI is a plus.'",2
+112,"Classify these words as nouns, verbs, or adjectives: run, happy, table, write, blue",2
+113,Rewrite this in plain English: 'The aforementioned party shall remit payment within thirty days of receipt of invoice.',2
+114,"Identify the main complaint in this review: 'The food was tasty, but we waited 50 minutes for our order and nobody apologized.'",2
+115,"Put these life events in chronological order: graduated university, started first job, born, finished secondary school",2
+116,"Explain what a credit score is and why it matters, in three sentences.",2
+117,Summarize the advantages of electric cars in three bullet points.,2
+118,"Classify this message as a complaint, a question, or a compliment: 'Your delivery driver was so helpful today, thank you!'",2
+119,"Turn this conversation into meeting minutes: 'Ade: We need a new logo. Bisi: I can draft three options by Friday. Ade: Great, let us review them Monday.'",2
+120,"Analyze this sales data and say which month performed best: January $12,000; February $9,500; March $15,200; April $13,800.",2
+121,Rewrite this tweet in under 100 characters while keeping its meaning: 'We are absolutely thrilled to announce that our brand new store is finally opening its doors this coming Saturday morning!',2
+122,Explain what a 404 error means to a non-technical user.,2
+123,"Group these countries by continent: Ghana, Brazil, Japan, Kenya, Canada, India",2
+124,Summarize the pros and cons of renting versus buying a home in a short table.,2
+125,"Convert this into CSV with the columns item and quantity: 'We need 4 chairs, 2 tables, and 10 cups.'",2
+126,"Classify the intent of this search query as informational, navigational, or transactional: 'cheap flights lagos to london december'",2
+127,"Simplify this sentence for a beginner English learner: 'Notwithstanding the inclement weather, the event proceeded as scheduled.'",2
+128,Explain the difference between a virus and bacteria in simple terms.,2
+129,Summarize the main idea of the fable 'The Tortoise and the Hare' in two sentences.,2
+130,Tag this article title with up to three topics: 'How rising interest rates are changing the housing market for first-time buyers',2
+131,Rewrite this feedback to be constructive rather than harsh: 'Your presentation was boring and way too long.',2
+132,Explain what machine learning is in one paragraph for a high school student.,2
+133,"List the action items from this email as bullet points: 'Hi team, please finish the slides by Wednesday. Tola, can you book the venue? Also, everyone should confirm attendance by Friday.'",2
+134,"Classify these transactions as income or expense: salary $2,000; rent $800; freelance payment $300; groceries $150",2
+135,"Summarize this in exactly 20 words: 'Solar power is becoming cheaper every year. Falling panel prices and better batteries mean more homes and businesses can generate their own electricity, reducing bills and dependence on the grid.'",2
+136,Describe the key features of a good resume in five bullet points.,2
+137,Classify this statement as fact or opinion: 'Lagos is the most exciting city in Africa.',2
+138,"Turn this into a short third-person bio: 'I am Kemi, a nurse for 8 years. I love hiking and I volunteer at a local clinic on weekends.'",2
+139,Explain what compound interest means using a simple example.,2
+140,Break this goal into weekly milestones: 'Read 4 books in one month.',2
+141,"A shop sells pens at 3 for $2. How much do 15 pens cost, and how many pens can you buy with $10? Show your working.",3
+142,"Write a short story, under 200 words, about a robot who learns to paint, ending with a twist.",3
+143,Should a small bakery invest in a delivery app or a second location first? Weigh the risks and recommend one.,3
+144,Prove that the sum of two even numbers is always even.,3
+145,"Design a database schema for a library system that tracks books, members, and loans. Explain your choices.",3
+146,A car travels 120 km at 60 km/h and then 180 km at 90 km/h. What is its average speed for the whole trip? Explain.,3
+147,Write a limerick about a programmer who never sleeps.,3
+148,"Compare SQL and NoSQL databases for a startup building a social media app, and recommend one.",3
+149,A company's revenue grew 20% in year one and fell 10% in year two. What is the overall percentage change? Explain step by step.,3
+150,This Python function should return the largest number in a list but sometimes returns the wrong result. Find the bug and fix it: def largest(nums): biggest = 0; for n in nums: if n > biggest: biggest = n; return biggest,3
+151,Write a persuasive speech of about 150 words convincing students to start saving money early.,3
+152,A manager must choose between promoting a high-performing but difficult employee or a well-liked but average one. Discuss the trade-offs and recommend a decision.,3
+153,"Plan a 3-day budget trip to Accra for two people with $500, covering transport, food, and activities. Justify how you split the money.",3
+154,"If 5 machines make 5 widgets in 5 minutes, how long do 100 machines take to make 100 widgets? Explain your reasoning.",3
+155,Write a sequence of three haikus about the changing seasons in a city.,3
+156,"Should a city ban cars from its downtown area? Consider businesses, residents, and the environment, then give a recommendation.",3
+157,Explain step by step why switching doors is the better choice in the Monty Hall problem.,3
+158,"Write a Python function that checks whether a string is a palindrome, ignoring spaces and punctuation, and explain how it works.",3
+159,Pipe A fills a tank in 6 hours and pipe B fills it in 4 hours. How long does it take with both pipes open? Show your working.,3
+160,Write a dialogue between an angry customer and a support agent where the agent calms them down without offering a refund.,3
+161,"Your startup has $50,000 left and six months of runway. Should you cut staff, raise prices, or seek investment? Analyze each option and recommend a plan.",3
+162,Write a 14-line poem about the ocean at night with a rhyme scheme of your choice.,3
+163,"Design an efficient algorithm to find two numbers in a list that add up to a target sum, and explain its time complexity.",3
+164,"A school wants to introduce a four-day week. List the stakeholders, the likely effects on each, and make a recommendation.",3
+165,Estimate how many piano tuners work in a city of 2 million people. Show your assumptions step by step.,3
+166,"Write the opening paragraph of a mystery novel set in a busy Lagos market, using vivid sensory details.",3
+167,Is it ethical for companies to use customer data to personalize prices? Present both sides and reach a conclusion.,3
+168,"A rectangle's length is three times its width, and its perimeter is 64 cm. Find its area, showing each step.",3
+169,Refactor this code to be more readable and explain each change: def f(a): return [x*2 for x in a if x%2==0 and x>0 and x<100],3
+170,"Create a weekly study plan for someone preparing for a data analyst job while working full-time, and explain each choice.",3
+171,"Write a children's story, under 150 words, that teaches the value of sharing and features a talking goat.",3
+172,"A project is behind schedule. The client wants it on time, the team is burned out, and new hires would take weeks to train. What should the project manager do? Justify your answer.",3
+173,"Calculate the monthly payment on a $10,000 loan at 12% annual interest over 2 years, showing each step.",3
+174,"Compare deploying a Python web app on a VPS, on a platform like Render, and on serverless functions for a beginner, and recommend one.",3
+175,"Write a funny product review, in exactly four sentences, for an umbrella that is terrible at its job.",3
+176,Explain the causes of the 2008 financial crisis and how they were connected.,3
+177,Find the flaw in this reasoning and explain how to fix it: 'All birds can fly. Penguins are birds. So penguins can fly.',3
+178,"Design a simple REST API for a to-do app. List the endpoints, methods, and example request bodies, and explain your design.",3
+179,A farmer has chickens and goats. There are 30 heads and 74 legs. How many of each animal are there? Show your working.,3
+180,"Write a letter from your future self, ten years from now, with three specific pieces of advice.",3
+181,Should a developer learn Rust or Go next to improve backend job prospects? Compare them and recommend one.,3
+182,A teacher discovers that a top student cheated on an exam that decides a scholarship. Discuss the options and recommend what the teacher should do.,3
+183,Write an 8-line rap verse about debugging code at 3 a.m. with a consistent rhyme scheme.,3
+184,"If you invest $1,000 at 5% compound interest per year, how many full years until it doubles? Show your calculation.",3
+185,"Analyze why a once-popular social media app might lose users, and propose three strategies to win them back.",3
+186,"Write a JavaScript function that removes duplicates from an array while keeping the original order, and explain two different approaches.",3
+187,"Three friends share a $75 bill equally. Ada paid $40, Bayo paid $25, and Chika paid $10. Who owes whom, and how much?",3
+188,"Write a short scene where two characters argue about whether to move abroad, presenting both sides fairly.",3
+189,"A company must choose between building its own AI model or using an existing API. Weigh cost, control, speed, and risk, and recommend an approach.",3
+190,Explain step by step how you would debug a website that loads slowly only for users on mobile networks.,3
+191,"Write a heartfelt, funny tribute of about 120 words to a family car that has just been retired.",3
+192,"A train leaves City A at 8:00 at 80 km/h. Another leaves City B, 300 km away, at 9:00 at 70 km/h heading toward City A. When and where do they meet?",3
+193,"Invent a company name, slogan, and three-sentence pitch for a startup that recycles phone batteries.",3
+194,"Should governments regulate AI chatbots the way they regulate medicines? Discuss arguments for and against, then conclude.",3
+195,"Write a Python class for a bank account with deposit, withdraw, and balance methods that prevents overdrafts, and include tests.",3
+196,Prove that there are infinitely many prime numbers.,3
+197,"Plan a marketing strategy for a new coffee shop near a university with a $2,000 budget, and explain how you would measure success.",3
+198,Write a five-line poem in which each line starts with the next letter of the word LAGOS.,3
+199,"Ice cream sales and drowning incidents rise together. Explain why this does not mean one causes the other, and how you would test for a real cause.",3
+200,One job pays 20% more but has a 2-hour commute; another is remote with average pay. Analyze the trade-offs and recommend one.,3
+201,"Design a system to detect fraudulent credit card transactions. Describe the data, the model, and how you would handle false positives.",3
+202,What is 17 x 23 - 144 / 12 + 3^2? Show each step.,3
+203,"Write a fable with a moral about patience, using animals native to West Africa, in under 200 words.",3
+204,Your team disagrees about rewriting an old codebase from scratch versus improving it gradually. Present both cases and recommend one.,3
+205,"Explain how a hash table works, why lookups are usually fast, and what happens during collisions.",3
+206,"A store raises a price by 25% and then offers a 20% discount. Is the final price higher, lower, or the same as the original? Explain.",3
+207,"Write the opening paragraph of a cover letter for a teacher moving into data analysis, highlighting transferable skills.",3
+208,Is it better for a beginner to learn programming through projects or through structured courses? Weigh both and recommend an approach.,3
+209,Solve for x: 3(x - 4) + 2 = 2x + 7. Show each step.,3
+210,"Write a horror story in exactly six sentences, where the last sentence changes the meaning of the first.",3
