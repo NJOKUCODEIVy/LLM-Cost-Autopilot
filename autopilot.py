@@ -8,13 +8,22 @@ stronger model's answer if the cheap one fails ("if latency permits").
 """
 
 import sys
+from dataclasses import dataclass
 
 from providers import Response
 from router import route
 from verifier import VerificationJob, should_check, submit, verify_now, wait_until_done
 
 
-def handle(prompt: str, wait_for_check: bool = False) -> Response:
+@dataclass
+class AutopilotResult:
+    request_id: int
+    tier: int            # Complexity tier the classifier predicted
+    response: Response   # The answer the user gets
+    escalated: bool      # True if a stronger model's answer replaced the cheap one
+
+
+def handle_detailed(prompt: str, wait_for_check: bool = False) -> AutopilotResult:
     request_id, tier, response = route(prompt)
     job = VerificationJob(request_id, prompt, response.text, response.model_id, tier)
 
@@ -23,11 +32,16 @@ def handle(prompt: str, wait_for_check: bool = False) -> Response:
         if should_check(response.model_id, always=True):
             better = verify_now(job)
             if better is not None:
-                return better
-        return response
+                return AutopilotResult(request_id, tier, better, escalated=True)
+        return AutopilotResult(request_id, tier, response, escalated=False)
 
     submit(job)  # Background check on a sample of requests; the user doesn't wait
-    return response
+    return AutopilotResult(request_id, tier, response, escalated=False)
+
+
+def handle(prompt: str, wait_for_check: bool = False) -> Response:
+    """Shortcut that returns just the answer."""
+    return handle_detailed(prompt, wait_for_check).response
 
 
 if __name__ == "__main__":
@@ -57,4 +71,3 @@ if __name__ == "__main__":
         answer = handle(prompt)
         print(f"{answer.model_id}: {answer.text}")
         wait_until_done()  # Let any background check finish before the program exits
-        
