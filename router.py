@@ -7,6 +7,7 @@ the request to autopilot.db.
 """
 
 import sys
+import time
 
 import joblib
 import numpy as np
@@ -59,6 +60,7 @@ def route(prompt: str) -> tuple[int, int, Response]:
     If the routed model's provider fails (down, overloaded, or too slow), the
     prompt goes to that model's fallback from routing.yaml instead.
     """
+    start = time.perf_counter()
     tier, model = choose_model(prompt)
     fallback_from = None
     try:
@@ -68,10 +70,12 @@ def route(prompt: str) -> tuple[int, int, Response]:
         print(f"    {model.name} failed ({type(error).__name__}); falling back to {backup.name}")
         fallback_from, model = model.name, backup
         response = send_request(prompt, model)
+    # Total time the user waited, including any time lost on a failed provider
+    total_latency = time.perf_counter() - start
 
     request_id = log_request(
         prompt, tier, model.name, response.input_tokens, response.output_tokens,
-        response.cost, response.latency, fallback_from,
+        response.cost, total_latency, fallback_from,
     )
     return request_id, tier, response
 

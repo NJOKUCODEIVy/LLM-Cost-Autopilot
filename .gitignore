@@ -3,3 +3,7 @@
 __pycache__/
 .vscode/
 autopilot.db
+demo.db
+demo_failures.csv
+routing_failures.csv
+complexity_classifier.previous.joblib
