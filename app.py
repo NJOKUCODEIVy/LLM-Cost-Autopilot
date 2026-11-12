@@ -10,7 +10,7 @@ is routed to the cheapest suitable model and every response shows its cost.
 To try the chat before Google sign-in is set up (on your own machine only):
     AUTOPILOT_DEV_USER="Your Name" streamlit run app.py
 """
-
+   
 import os
 
 from paths import DB_DIR
@@ -22,6 +22,9 @@ import html  # noqa: E402
 import time  # noqa: E402
 
 import streamlit as st  # noqa: E402
+import openai  # noqa: E402
+
+openai.api_key = st.secrets["openai"]["api_key"]
 
 import verifier  # noqa: E402
 from autopilot import handle_detailed  # noqa: E402
