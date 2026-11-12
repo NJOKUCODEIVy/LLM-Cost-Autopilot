@@ -80,7 +80,9 @@ if __name__ == "__main__":
     import csv
     from collections import defaultdict
 
-    with open("labeled_prompts.csv", newline="", encoding="utf-8") as f:
+    from paths import LABELED_PROMPTS
+
+    with open(LABELED_PROMPTS, newline="", encoding="utf-8") as f:
         rows = list(csv.DictReader(f))
 
     # Average each feature per tier, to see whether the features tell the tiers apart

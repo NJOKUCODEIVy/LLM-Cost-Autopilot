@@ -50,11 +50,12 @@ if __name__ == "__main__":
         # Uses separate demo files, so your real log and training data stay clean.
         import logger
         import verifier
+        from paths import DATA_DIR, DB_DIR
         from registry import MODEL_REGISTRY
 
-        logger.DB_FILE = "demo.db"
+        logger.DB_FILE = str(DB_DIR / "demo.db")
         logger.init_db()
-        verifier.FAILURES_FILE = "demo_failures.csv"
+        verifier.FAILURES_FILE = str(DATA_DIR / "demo_failures.csv")
 
         prompt = ("A train leaves at 9:40 a.m. and travels 210 km at 84 km/h. It then waits "
                   "25 minutes, and travels another 96 km at 64 km/h. What time does it arrive?")

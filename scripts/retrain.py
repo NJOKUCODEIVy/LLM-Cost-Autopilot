@@ -6,15 +6,16 @@ has collected, retrains the classifier, and saves the new model only if it
 still meets the 80% accuracy bar. The previous model is kept as a backup.
 
 The brief suggests running this weekly; for now, run it by hand:
-    python retrain.py
+    python -m scripts.retrain
 To try it on the escalation demo's failure without changing your real model:
-    python retrain.py --failures demo_failures.csv --dry-run
+    python -m scripts.retrain --failures data/demo_failures.csv --dry-run
 """
 
 import csv
 import os
 import shutil
 import sys
+from pathlib import Path
 
 import joblib
 import numpy as np
@@ -26,10 +27,11 @@ from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
 from features import FEATURE_NAMES, extract_features
-from train_classifier import DATA_FILE, MODEL_FILE, print_confusion_matrix
+from paths import CLASSIFIER_BACKUP, ROUTING_FAILURES
+from scripts.train_classifier import DATA_FILE, MODEL_FILE, print_confusion_matrix
 
-FAILURES_FILE = "routing_failures.csv"
-BACKUP_FILE = "complexity_classifier.previous.joblib"
+FAILURES_FILE = str(ROUTING_FAILURES)
+BACKUP_FILE = CLASSIFIER_BACKUP
 MIN_ACCURACY = 0.80   # The brief's bar for V1
 FAILURE_WEIGHT = 5    # Each real failure counts as 5 examples, so a few can shift the model
 
@@ -40,7 +42,7 @@ def to_features(prompts: list[str]) -> np.ndarray:
     )
 
 
-def load_csv(path: str, tier_column: str) -> dict[str, int]:
+def load_csv(path: str | Path, tier_column: str) -> dict[str, int]:
     """Read a CSV into {prompt: tier}. Returns an empty dict if the file doesn't exist."""
     if not os.path.exists(path):
         return {}
@@ -63,10 +65,11 @@ def main() -> None:
 
     # Test only on hand-labeled prompts the model never trains on, so scores stay comparable
     prompts = list(labeled)
-    train_prompts, test_prompts = train_test_split(
+    train_split, test_split = train_test_split(
         prompts, test_size=0.2, stratify=[labeled[p] for p in prompts], random_state=42
     )
-    train_prompts += list(failures) * FAILURE_WEIGHT
+    train_prompts: list[str] = list(train_split) + list(failures) * FAILURE_WEIGHT
+    test_prompts: list[str] = list(test_split)
     all_tiers = {**labeled, **failures}
     X_train, y_train = to_features(train_prompts), np.array([all_tiers[p] for p in train_prompts])
     X_test, y_test = to_features(test_prompts), np.array([labeled[p] for p in test_prompts])

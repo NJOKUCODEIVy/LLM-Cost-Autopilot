@@ -1,17 +1,21 @@
 """
 Phase 1, Step 3: summarize the baseline results.
 
-Reads baseline_results.csv and prints two tables:
+Reads data/baseline_results.csv and prints two tables:
 1. Per model: successful and failed calls, average latency, average output
    tokens, and total cost.
 2. Per model: whether it got each question with one correct answer right.
+
+    python -m scripts.summarize_baseline
 """
 
 import csv
 import re
 from collections import defaultdict
 
-INPUT_FILE = "baseline_results.csv"
+from paths import BASELINE_RESULTS
+
+INPUT_FILE = BASELINE_RESULTS
 
 # Questions with one correct answer, and a pattern that matches that answer
 CHECKABLE = {

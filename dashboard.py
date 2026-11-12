@@ -17,7 +17,7 @@ import streamlit as st
 from logger import DB_FILE
 from registry import MODEL_REGISTRY
 
-st.set_page_config(page_title="LLM Cost Autopilot", page_icon="", layout="wide")
+st.set_page_config(page_title="LLM Cost Autopilot", page_icon="💸", layout="wide")
 
 
 @st.cache_data(ttl=30)  # Re-read the database at most every 30 seconds
@@ -28,14 +28,16 @@ def load_requests() -> pd.DataFrame:
     finally:
         conn.close()
     df["timestamp"] = pd.to_datetime(df["timestamp"], utc=True, format="ISO8601")
-    df["escalation_cost"] = df["escalation_cost"].fillna(0.0)
-    df["actual_cost"] = df["cost"] + df["escalation_cost"]  # Escalations are part of the real bill
+    for column in ("escalation_cost", "verification_cost"):
+        df[column] = df[column].fillna(0.0)
+    # The real bill: the answers, the verifier's checking calls, and re-runs on stronger models
+    df["actual_cost"] = df["cost"] + df["verification_cost"] + df["escalation_cost"]
     return df
 
 
 df = load_requests()
 
-st.title("LLM Cost Autopilot")
+st.title("💸 LLM Cost Autopilot")
 if df.empty:
     st.info("No requests logged yet. Run `python simulate_traffic.py` first.")
     st.stop()
@@ -73,6 +75,12 @@ c3.metric(f"All on {baseline.name}", f"${baseline_total:.4f}")
 c4.metric("You saved", f"${baseline_total - actual_total:.4f}")
 c5.metric("Checks passed", f"{checked['quality_passed'].mean():.0%}" if len(checked) else "-",
           help=f"{len(checked)} answers checked by the verifier")
+# Backslashes stop Streamlit from reading the $ signs as math formatting
+st.caption(
+    f"Actual cost breakdown: answers \\${df['cost'].sum():.4f} · "
+    f"verification \\${df['verification_cost'].sum():.4f} · "
+    f"escalations \\${df['escalation_cost'].sum():.4f}"
+)
 
 # --- Cost over time ---
 st.subheader(f"Cost per {period.lower()}")
@@ -169,7 +177,8 @@ st.dataframe(
 )
 
 st.caption(
+    "Actual cost includes the answers, the verifier's checking calls, and escalations. "
     f"Comparison costs re-price each request's actual token counts at {baseline.name}'s rates; "
     "a different model would write a different number of tokens, so treat it as an estimate. "
-    "Costs use registry prices, and do not yet include the verifier's own checking calls."
+    "All costs use the registry's paid prices."
 )

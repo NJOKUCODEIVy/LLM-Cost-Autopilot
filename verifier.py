@@ -23,13 +23,14 @@ import threading
 from dataclasses import dataclass
 
 from logger import record_escalation, record_quality
+from paths import ROUTING_FAILURES
 from providers import Response, send_request
 from quality import BACKUP_JUDGE, JUDGE_MODEL, QualityResult, evaluate
 from registry import MODEL_REGISTRY
 from router import ROUTING
 
 SAMPLE_RATE = 0.33  # Check about 1 in 3 eligible requests
-FAILURES_FILE = "routing_failures.csv"  # Training examples for the classifier (Phase 3, Step 4)
+FAILURES_FILE = str(ROUTING_FAILURES)  # Training examples for the classifier (Phase 3, Step 4)
 
 # The reference answer comes from the top model (tier 3), or its backup if it's down
 REFERENCE_MODELS = (JUDGE_MODEL, BACKUP_JUDGE)
@@ -83,17 +84,20 @@ def _escalate(job: VerificationJob, result: QualityResult,
     if target_name == reference_model:
         # The stronger model already answered this prompt as the reference: reuse it.
         # It's the yardstick the cheap answer was measured against, so it scores 5.
-        better, better_score = reference, 5.0
+        # Its cost is already counted as verification cost, so there's nothing extra.
+        better, better_score, extra_cost = reference, 5.0, 0.0
     else:
         better = send_request(job.prompt, MODEL_REGISTRY[target_name])
-        better_score = evaluate(job.prompt, better.text, reference.text).score
+        check = evaluate(job.prompt, better.text, reference.text)
+        better_score, extra_cost = check.score, better.cost + check.cost
 
-    record_escalation(job.request_id, target_name, better.cost, better_score)
+    record_escalation(job.request_id, target_name, extra_cost, better_score)
     _save_failure(job, TIER_OF_MODEL.get(target_name, 3), result.detail)
 
     gap = f"{result.score:.0f} -> {better_score:.0f}" if better_score is not None else "unknown"
+    note = " (reused the reference answer)" if extra_cost == 0.0 else ""
     print(f"    Escalated request #{job.request_id}: {original.name} -> {target_name} | "
-          f"quality {gap} out of 5 | extra cost ${better.cost:.7f}")
+          f"quality {gap} out of 5 | extra cost ${extra_cost:.7f}{note}")
     return better
 
 
@@ -105,8 +109,10 @@ def verify_now(job: VerificationJob) -> Response | None:
         return None
     reference_model, reference = found
     result = evaluate(job.prompt, job.answer, reference.text)
+    # Checking isn't free: the reference answer and any judge calls are part of the real bill
     record_quality(job.request_id, result.task_type, result.score, result.passed,
-                   f"{result.detail} (reference: {reference_model})")
+                   f"{result.detail} (reference: {reference_model})",
+                   verification_cost=reference.cost + result.cost)
     if result.passed is False:
         print(f"    Routing failure on request #{job.request_id} ({job.model_id}): {result.detail}")
         return _escalate(job, result, reference_model, reference)

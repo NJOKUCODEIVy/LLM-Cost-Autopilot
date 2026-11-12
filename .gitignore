@@ -1,12 +1,19 @@
+# Python and editor
 .venv/
-.env
 __pycache__/
 .vscode/
-autopilot.db
-demo.db
-demo_failures.csv
-routing_failures.csv
-complexity_classifier.previous.joblib
-data/
-loadtest.db
-load_test_progress.txt
+
+# Secrets
+.env
+
+# Local databases (request logs)
+db/
+
+# Large or private data
+data/raw/
+data/routing_failures.csv
+data/demo_failures.csv
+data/load_test_progress.txt
+
+# Backup model from retraining
+models/complexity_classifier.previous.joblib

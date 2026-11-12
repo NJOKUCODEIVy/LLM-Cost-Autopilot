@@ -15,11 +15,12 @@ import yaml
 
 from features import extract_features
 from logger import log_request
+from paths import CLASSIFIER as CLASSIFIER_PATH, ROUTING_CONFIG
 from providers import Response, send_request
 from registry import MODEL_REGISTRY, ModelConfig
 
-ROUTING_FILE = "routing.yaml"
-MODEL_FILE = "complexity_classifier.joblib"
+ROUTING_FILE = ROUTING_CONFIG
+MODEL_FILE = CLASSIFIER_PATH
 
 
 def load_routing_map() -> dict:

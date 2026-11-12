@@ -81,12 +81,13 @@ def route_prompt(body: RouteRequest) -> RouteResponse:
 
 @app.get("/stats")
 def stats() -> dict:
-    """Totals across every logged request."""
+    """Totals across every logged request, including verification and escalation costs."""
     conn = sqlite3.connect(DB_FILE)
     try:
         row = conn.execute(
             """SELECT COUNT(*),
-                      COALESCE(SUM(cost + COALESCE(escalation_cost, 0)), 0),
+                      COALESCE(SUM(cost + COALESCE(verification_cost, 0)
+                                   + COALESCE(escalation_cost, 0)), 0),
                       COUNT(quality_passed),
                       AVG(quality_passed),
                       COALESCE(SUM(escalated), 0)

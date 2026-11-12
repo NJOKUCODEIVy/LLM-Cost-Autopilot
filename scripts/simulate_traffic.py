@@ -6,8 +6,8 @@ trained on: the 42 held-out prompts from labeled_prompts.csv plus your 10
 baseline questions. Each one goes through autopilot.handle(), which routes it,
 logs it, and checks about 1 in 3 answers in the background, just like real use.
 
-    python simulate_traffic.py            # all 52 prompts
-    python simulate_traffic.py --limit 10 # a quick, smaller run
+    python -m scripts.simulate_traffic            # all 52 prompts
+    python -m scripts.simulate_traffic --limit 10 # a quick, smaller run
 """
 
 import csv
@@ -17,7 +17,8 @@ import time
 from sklearn.model_selection import train_test_split
 
 from autopilot import handle
-from test_prompts import TEST_PROMPTS
+from paths import LABELED_PROMPTS
+from scripts.test_prompts import TEST_PROMPTS
 from verifier import wait_until_done
 
 PAUSE_SECONDS = 2  # Space out requests to stay within free-tier rate limits
@@ -26,7 +27,7 @@ PAUSE_SECONDS = 2  # Space out requests to stay within free-tier rate limits
 def unseen_prompts() -> list[str]:
     """The held-out prompts (same split as training, so the classifier never saw them),
     plus the baseline questions."""
-    with open("labeled_prompts.csv", newline="", encoding="utf-8") as f:
+    with open(LABELED_PROMPTS, newline="", encoding="utf-8") as f:
         rows = list(csv.DictReader(f))
     prompts = [r["prompt"] for r in rows]
     tiers = [int(r["tier"]) for r in rows]

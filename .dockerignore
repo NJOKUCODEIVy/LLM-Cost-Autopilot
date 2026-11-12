@@ -3,7 +3,10 @@
 .git/
 .vscode/
 __pycache__/
-*.db
-demo_failures.csv
-routing_failures.csv
-complexity_classifier.previous.joblib
+db/
+data/raw/
+data/routing_failures.csv
+data/demo_failures.csv
+data/load_test_progress.txt
+models/complexity_classifier.previous.joblib
+restructure/

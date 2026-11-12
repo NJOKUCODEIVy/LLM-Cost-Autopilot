@@ -1,6 +1,8 @@
 """
 Phase 2, Step 3: train the complexity classifier.
 
+    python -m scripts.train_classifier
+
 Turns every labeled prompt into features, trains two simple scikit-learn
 models (logistic regression and random forest), reports their accuracy and
 confusion matrix on a held-out test set, and saves the better one.
@@ -18,9 +20,10 @@ from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import StandardScaler
 
 from features import FEATURE_NAMES, extract_features
+from paths import CLASSIFIER, LABELED_PROMPTS
 
-DATA_FILE = "labeled_prompts.csv"
-MODEL_FILE = "complexity_classifier.joblib"
+DATA_FILE = LABELED_PROMPTS
+MODEL_FILE = CLASSIFIER
 
 
 def load_dataset() -> tuple[np.ndarray, np.ndarray]:

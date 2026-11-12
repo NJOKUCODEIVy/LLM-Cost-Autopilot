@@ -2,17 +2,20 @@
 Phase 1, Step 3: baseline test.
 
 Sends every test prompt to every model in the registry and saves the results
-to baseline_results.csv, so you can compare answers, tokens, latency, and cost.
+to data/baseline_results.csv, so you can compare answers, tokens, latency, and cost.
+
+    python -m scripts.baseline
 """
 
 import csv
 import time
 
+from paths import BASELINE_RESULTS
 from providers import send_request
 from registry import MODEL_REGISTRY
-from test_prompts import TEST_PROMPTS
+from scripts.test_prompts import TEST_PROMPTS
 
-OUTPUT_FILE = "baseline_results.csv"
+OUTPUT_FILE = BASELINE_RESULTS
 PAUSE_SECONDS = 2  # Short pause between calls to stay within free-tier rate limits
 
 FIELDS = ["prompt_id", "tier", "model", "input_tokens", "output_tokens",

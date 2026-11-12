@@ -65,6 +65,7 @@ class QualityResult:
     score: float | None    # 1 to 5; None if the judge couldn't be reached
     passed: bool | None    # None if the judge couldn't be reached
     detail: str            # Short explanation, useful when reading the log
+    cost: float = 0.0      # USD spent on judge calls for this check (fast checks are free)
 
 
 def detect_task_type(prompt: str) -> str:
@@ -116,17 +117,19 @@ def check_classification(answer: str, reference: str) -> QualityResult:
 def judge(prompt: str, answer: str, reference: str, task_type: str) -> QualityResult:
     """Ask the top model to score the answer from 1 to 5 (the LLM-as-judge check)."""
     judge_prompt = JUDGE_PROMPT.format(prompt=prompt, reference=reference, answer=answer)
+    cost = 0.0
     for model in (JUDGE_MODEL, BACKUP_JUDGE):
         try:
-            reply = send_request(judge_prompt, model).text
+            reply = send_request(judge_prompt, model)
         except Exception:
-            continue  # Judge unavailable: try the backup
-        found = re.search(r"[1-5]", reply)
+            continue  # Judge unavailable: try the backup (a failed call costs nothing)
+        cost += reply.cost
+        found = re.search(r"[1-5]", reply.text)
         if found:
             score = int(found.group())
             return QualityResult(task_type, "judge", float(score), score >= JUDGE_PASS_SCORE,
-                                 f"judged {score}/5 by {model.name}")
-    return QualityResult(task_type, "judge", None, None, "judge unavailable; not scored")
+                                 f"judged {score}/5 by {model.name}", cost)
+    return QualityResult(task_type, "judge", None, None, "judge unavailable; not scored", cost)
 
 
 FAST_CHECKS = {
@@ -146,6 +149,7 @@ def evaluate(prompt: str, answer: str, reference: str) -> QualityResult:
         # so the judge decides. If the judge is unavailable, keep the fast result.
         judged = judge(prompt, answer, reference, task_type)
         if judged.score is None:
+            fast.cost = judged.cost  # Keep the cost of any judge call that was made
             return fast
         judged.detail = f"{fast.detail}; {judged.detail}"
         return judged

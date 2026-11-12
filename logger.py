@@ -10,7 +10,10 @@ import os
 import sqlite3
 from datetime import datetime, timezone
 
-DB_FILE = os.getenv("AUTOPILOT_DB", "autopilot.db")
+from paths import DEFAULT_DB
+
+# Where the database lives. Docker and the app set AUTOPILOT_DB; otherwise it is db/autopilot.db.
+DB_FILE = os.getenv("AUTOPILOT_DB", str(DEFAULT_DB))
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS requests (
@@ -38,6 +41,8 @@ NEW_COLUMNS = {
     "quality_passed": "INTEGER",  # 1 = passed, 0 = failed (a routing failure), empty = not checked
     "quality_detail": "TEXT",     # Why it passed or failed
     "escalated_score": "REAL",    # Quality score of the stronger model's answer
+    "verification_cost": "REAL",  # USD the verifier spent checking this answer (reference + judge)
+    "user_rating": "INTEGER",     # From the chat app: 1 = thumbs up, 0 = thumbs down, empty = no rating
 }
 
 
@@ -87,15 +92,17 @@ def log_request(prompt: str, tier: int, model: str, input_tokens: int,
 
 
 def record_quality(request_id: int, task_type: str, score: float | None,
-                   passed: bool | None, detail: str) -> None:
-    """Save the verifier's verdict on one request."""
+                   passed: bool | None, detail: str, verification_cost: float = 0.0) -> None:
+    """Save the verifier's verdict on one request, and what the check cost."""
     conn = _connect()
     try:
         conn.execute(
             """UPDATE requests
-               SET task_type = ?, quality_score = ?, quality_passed = ?, quality_detail = ?
+               SET task_type = ?, quality_score = ?, quality_passed = ?, quality_detail = ?,
+                   verification_cost = ?
                WHERE id = ?""",
-            (task_type, score, None if passed is None else int(passed), detail, request_id),
+            (task_type, score, None if passed is None else int(passed), detail,
+             verification_cost, request_id),
         )
         conn.commit()
     finally:
@@ -114,6 +121,25 @@ def record_escalation(request_id: int, escalated_model: str,
             (escalated_model, escalation_cost, escalated_score, request_id),
         )
         conn.commit()
+    finally:
+        conn.close()
+
+
+def record_rating(request_id: int, rating: int | None) -> None:
+    """Save a person's thumbs up (1) or thumbs down (0) on a response."""
+    conn = _connect()
+    try:
+        conn.execute("UPDATE requests SET user_rating = ? WHERE id = ?", (rating, request_id))
+        conn.commit()
+    finally:
+        conn.close()
+
+
+def get_request(request_id: int) -> sqlite3.Row | None:
+    """Return one logged request, or None if it doesn't exist."""
+    conn = _connect()
+    try:
+        return conn.execute("SELECT * FROM requests WHERE id = ?", (request_id,)).fetchone()
     finally:
         conn.close()
 

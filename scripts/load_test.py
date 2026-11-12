@@ -6,18 +6,20 @@ go to their own database, loadtest.db, so they stay separate from your earlier
 experiments. Progress is saved after every prompt, so you can stop at any time
 (Ctrl+C) and the next run picks up where this one left off.
 
-    python load_test.py               # run the next batch (250 prompts)
-    python load_test.py --batch 100   # run a smaller batch
-    python load_test.py --status      # show progress without sending anything
+    python -m scripts.load_test               # run the next batch (250 prompts)
+    python -m scripts.load_test --batch 100   # run a smaller batch
+    python -m scripts.load_test --status      # show progress without sending anything
 
 See the results with:
-    AUTOPILOT_DB=loadtest.db streamlit run dashboard.py
+    AUTOPILOT_DB=db/loadtest.db streamlit run dashboard.py
 """
 
 import os
 
+from paths import DB_DIR, LOAD_TEST_PROGRESS, LOAD_TEST_PROMPTS
+
 # Must be set before importing anything that uses logger.py
-os.environ.setdefault("AUTOPILOT_DB", "loadtest.db")
+os.environ.setdefault("AUTOPILOT_DB", str(DB_DIR / "loadtest.db"))
 
 import csv  # noqa: E402
 import sys  # noqa: E402
@@ -26,8 +28,8 @@ import time  # noqa: E402
 from autopilot import handle  # noqa: E402
 from verifier import wait_until_done  # noqa: E402
 
-PROMPTS_FILE = "load_test_prompts.csv"
-PROGRESS_FILE = "load_test_progress.txt"
+PROMPTS_FILE = LOAD_TEST_PROMPTS
+PROGRESS_FILE = LOAD_TEST_PROGRESS
 DEFAULT_BATCH = 250
 PAUSE_SECONDS = 2            # Space out requests to stay within free-tier rate limits
 MAX_FAILURES_IN_A_ROW = 5    # Stop early if a provider is down or today's free quota is used up
@@ -98,4 +100,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-    

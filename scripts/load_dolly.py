@@ -6,7 +6,7 @@ licensed CC BY-SA 3.0) and samples 125 prompts from each of its 8 categories,
 so every kind of request is equally represented. The sample is the same every
 time you run it (fixed random seed), so the load test is reproducible.
 
-    python load_dolly.py
+    python -m scripts.load_dolly
 """
 
 import csv
@@ -17,10 +17,12 @@ import re
 
 import requests
 
+from paths import DOLLY_RAW, LOAD_TEST_PROMPTS
+
 DOLLY_URL = ("https://huggingface.co/datasets/databricks/databricks-dolly-15k"
              "/resolve/main/databricks-dolly-15k.jsonl")
-RAW_FILE = os.path.join("data", "databricks-dolly-15k.jsonl")
-OUTPUT_FILE = "load_test_prompts.csv"
+RAW_FILE = DOLLY_RAW
+OUTPUT_FILE = LOAD_TEST_PROMPTS
 PER_CATEGORY = 125      # 8 categories x 125 = 1,000 prompts
 MAX_CHARS = 2_000       # Skip very long prompts to keep token use reasonable
 SEED = 42
@@ -30,7 +32,7 @@ def download() -> None:
     """Download the dataset once (about 13 MB); later runs reuse the saved copy."""
     if os.path.exists(RAW_FILE):
         return
-    os.makedirs("data", exist_ok=True)
+    os.makedirs(RAW_FILE.parent, exist_ok=True)
     print("Downloading Dolly 15k (about 13 MB)...")
     response = requests.get(DOLLY_URL, timeout=120)
     response.raise_for_status()

@@ -1,0 +1,16 @@
+# Visual theme for the chat app and dashboard: burgundy and ash, IBM Plex type
+[theme]
+base = "light"
+primaryColor = "#7B1E34"
+backgroundColor = "#F1EFED"
+secondaryBackgroundColor = "#E8E5E2"
+textColor = "#262524"
+borderColor = "#DCD8D4"
+linkColor = "#7B1E34"
+baseRadius = "8px"
+showWidgetBorder = true
+font = "'IBM Plex Sans':https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap, sans-serif"
+codeFont = "'IBM Plex Mono':https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap, monospace"
+
+[theme.sidebar]
+backgroundColor = "#E8E5E2"
