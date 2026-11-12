@@ -24,8 +24,14 @@ import time  # noqa: E402
 import streamlit as st  # noqa: E402
 import openai  # noqa: E402
 
-if "openai" in st.secrets and "api_key" in st.secrets["openai"]:
-    openai.api_key = st.secrets["openai"]["api_key"]
+openai_key = os.getenv("OPENAI_API_KEY")
+if not openai_key:
+    try:
+        openai_key = st.secrets["openai"]["api_key"]
+    except Exception:
+        openai_key = None
+if openai_key:
+    openai.api_key = openai_key
 
 import verifier  # noqa: E402
 from autopilot import handle_detailed  # noqa: E402

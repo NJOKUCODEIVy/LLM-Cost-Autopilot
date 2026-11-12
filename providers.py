@@ -14,6 +14,7 @@ from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 from openai import OpenAI
+import streamlit as st
 
 from registry import MODEL_REGISTRY, ModelConfig
 
@@ -21,11 +22,25 @@ from registry import MODEL_REGISTRY, ModelConfig
 load_dotenv(override=True)
 
 
+def _get_secret_value(section: str, key: str, env_name: str) -> str | None:
+    value = os.getenv(env_name)
+    if value:
+        return value
+    try:
+        if section in st.secrets and key in st.secrets[section]:
+            value = st.secrets[section][key]
+            if value:
+                return str(value)
+    except Exception:
+        pass
+    return None
+
+
 def _get_groq_client() -> OpenAI:
-    api_key = os.getenv("GROQ_API_KEY")
+    api_key = _get_secret_value("groq", "api_key", "GROQ_API_KEY")
     if not api_key:
         raise RuntimeError(
-            "Missing GROQ_API_KEY. Add it to your environment or .env before using Groq models."
+            "Missing GROQ_API_KEY. Add it to your environment, .env, or Streamlit secrets before using Groq models."
         )
     return OpenAI(
         api_key=api_key,
@@ -36,10 +51,10 @@ def _get_groq_client() -> OpenAI:
 
 
 def _get_gemini_client() -> genai.Client:
-    api_key = os.getenv("GEMINI_API_KEY")
+    api_key = _get_secret_value("gemini", "api_key", "GEMINI_API_KEY")
     if not api_key:
         raise RuntimeError(
-            "Missing GEMINI_API_KEY. Add it to your environment or .env before using Gemini models."
+            "Missing GEMINI_API_KEY. Add it to your environment, .env, or Streamlit secrets before using Gemini models."
         )
     return genai.Client(
         api_key=api_key,
