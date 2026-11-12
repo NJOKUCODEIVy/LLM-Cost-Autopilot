@@ -40,7 +40,7 @@ verifier.SAVE_FAILURES = False
 DAILY_LIMIT = 20          # Requests per account per day
 GLOBAL_DAILY_CAP = 300    # Requests per day across everyone, to protect the free API quota
 MAX_PROMPT_CHARS = 1_000
-BUILT_BY = "[YOUR NAME]"  # Shown in the landing page footer
+BUILT_BY = "Njoku kelechi"  # Shown in the landing page footer
 GITHUB_URL = "https://github.com/NJOKUCODEIVy/LLM-Cost-Autopilot"
 
 ACCENT = "#7B1E34"
