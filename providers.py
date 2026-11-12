@@ -20,21 +20,34 @@ from registry import MODEL_REGISTRY, ModelConfig
 # override=True makes .env win over any older keys already set in the terminal
 load_dotenv(override=True)
 
-# Time limits: give up on a slow or overloaded provider quickly,
-# so the router can switch to a fallback model instead of hanging
-groq_client = OpenAI(
-    api_key=os.getenv("GROQ_API_KEY"),
-    base_url="https://api.groq.com/openai/v1",
-    timeout=30.0,   # Seconds per attempt
-    max_retries=1,  # One retry, then give up
-)
-gemini_client = genai.Client(
-    api_key=os.getenv("GEMINI_API_KEY"),
-    http_options=types.HttpOptions(
-        timeout=30_000,  # Milliseconds per attempt (30 seconds)
-        retry_options=types.HttpRetryOptions(attempts=2),  # Two tries at most
-    ),
-)
+
+def _get_groq_client() -> OpenAI:
+    api_key = os.getenv("GROQ_API_KEY")
+    if not api_key:
+        raise RuntimeError(
+            "Missing GROQ_API_KEY. Add it to your environment or .env before using Groq models."
+        )
+    return OpenAI(
+        api_key=api_key,
+        base_url="https://api.groq.com/openai/v1",
+        timeout=30.0,   # Seconds per attempt
+        max_retries=1,  # One retry, then give up
+    )
+
+
+def _get_gemini_client() -> genai.Client:
+    api_key = os.getenv("GEMINI_API_KEY")
+    if not api_key:
+        raise RuntimeError(
+            "Missing GEMINI_API_KEY. Add it to your environment or .env before using Gemini models."
+        )
+    return genai.Client(
+        api_key=api_key,
+        http_options=types.HttpOptions(
+            timeout=30_000,  # Milliseconds per attempt (30 seconds)
+            retry_options=types.HttpRetryOptions(attempts=2),  # Two tries at most
+        ),
+    )
 
 
 @dataclass
@@ -48,7 +61,8 @@ class Response:
 
 
 def _call_groq(prompt: str, model: ModelConfig) -> tuple[str, int, int]:
-    result = groq_client.chat.completions.create(
+    client = _get_groq_client()
+    result = client.chat.completions.create(
         model=model.model_id,
         messages=[{"role": "user", "content": prompt}],
     )
@@ -62,7 +76,8 @@ def _call_groq(prompt: str, model: ModelConfig) -> tuple[str, int, int]:
 
 
 def _call_gemini(prompt: str, model: ModelConfig) -> tuple[str, int, int]:
-    result = gemini_client.models.generate_content(model=model.model_id, contents=prompt)
+    client = _get_gemini_client()
+    result = client.models.generate_content(model=model.model_id, contents=prompt)
     usage = result.usage_metadata
     if usage is None:
         raise ValueError(f"{model.model_id} returned no token usage, so cost can't be calculated")
