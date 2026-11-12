@@ -9,8 +9,13 @@ borderColor = "#DCD8D4"
 linkColor = "#7B1E34"
 baseRadius = "8px"
 showWidgetBorder = true
-font = "'IBM Plex Sans':https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap, sans-serif"
-codeFont = "'IBM Plex Mono':https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap, monospace"
+codeTextColor = "#262524"
+codeBackgroundColor = "#E2DEDA"
+font = "'IBM Plex Sans':https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
+codeFont = "'IBM Plex Mono':https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap"
 
 [theme.sidebar]
 backgroundColor = "#E8E5E2"
+
+[client]
+toolbarMode = "minimal"

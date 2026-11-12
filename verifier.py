@@ -31,6 +31,7 @@ from router import ROUTING
 
 SAMPLE_RATE = 0.33  # Check about 1 in 3 eligible requests
 FAILURES_FILE = str(ROUTING_FAILURES)  # Training examples for the classifier (Phase 3, Step 4)
+SAVE_FAILURES = True  # The public chat app turns this off, so strangers' prompt text is never stored
 
 # The reference answer comes from the top model (tier 3), or its backup if it's down
 REFERENCE_MODELS = (JUDGE_MODEL, BACKUP_JUDGE)
@@ -92,7 +93,8 @@ def _escalate(job: VerificationJob, result: QualityResult,
         better_score, extra_cost = check.score, better.cost + check.cost
 
     record_escalation(job.request_id, target_name, extra_cost, better_score)
-    _save_failure(job, TIER_OF_MODEL.get(target_name, 3), result.detail)
+    if SAVE_FAILURES:
+        _save_failure(job, TIER_OF_MODEL.get(target_name, 3), result.detail)
 
     gap = f"{result.score:.0f} -> {better_score:.0f}" if better_score is not None else "unknown"
     note = " (reused the reference answer)" if extra_cost == 0.0 else ""

@@ -34,6 +34,15 @@ CREATE TABLE IF NOT EXISTS requests (
 )
 """
 
+USERS_SCHEMA = """
+CREATE TABLE IF NOT EXISTS users (
+    user_key    TEXT PRIMARY KEY,           -- SHA-256 fingerprint of the Google account ID; no name or email is stored
+    first_seen  TEXT NOT NULL,              -- When they first signed in (their sign-up)
+    last_seen   TEXT NOT NULL,              -- Their most recent visit
+    visits      INTEGER NOT NULL DEFAULT 1  -- How many sessions they've started
+)
+"""
+
 # Columns added after the first version. init_db() adds any that an older
 # autopilot.db is missing, so existing data is kept.
 NEW_COLUMNS = {
@@ -43,6 +52,7 @@ NEW_COLUMNS = {
     "escalated_score": "REAL",    # Quality score of the stronger model's answer
     "verification_cost": "REAL",  # USD the verifier spent checking this answer (reference + judge)
     "user_rating": "INTEGER",     # From the chat app: 1 = thumbs up, 0 = thumbs down, empty = no rating
+    "user_key": "TEXT",           # From the chat app: which signed-in account sent it (a fingerprint)
 }
 
 
@@ -57,6 +67,7 @@ def init_db() -> None:
     conn = _connect()
     try:
         conn.execute(SCHEMA)
+        conn.execute(USERS_SCHEMA)
         existing = {row["name"] for row in conn.execute("PRAGMA table_info(requests)")}
         for column, column_type in NEW_COLUMNS.items():
             if column not in existing:
@@ -140,6 +151,72 @@ def get_request(request_id: int) -> sqlite3.Row | None:
     conn = _connect()
     try:
         return conn.execute("SELECT * FROM requests WHERE id = ?", (request_id,)).fetchone()
+    finally:
+        conn.close()
+
+
+def register_user(user_key: str) -> bool:
+    """Record a visit. Returns True the first time this account signs in (their sign-up)."""
+    now = datetime.now(timezone.utc).isoformat()
+    conn = _connect()
+    try:
+        cursor = conn.execute(
+            "INSERT OR IGNORE INTO users (user_key, first_seen, last_seen) VALUES (?, ?, ?)",
+            (user_key, now, now),
+        )
+        is_new = cursor.rowcount == 1
+        if not is_new:
+            conn.execute("UPDATE users SET last_seen = ?, visits = visits + 1 WHERE user_key = ?",
+                         (now, user_key))
+        conn.commit()
+        return is_new
+    finally:
+        conn.close()
+
+
+def set_request_user(request_id: int, user_key: str) -> None:
+    """Link a logged request to the account that sent it, for daily limits."""
+    conn = _connect()
+    try:
+        conn.execute("UPDATE requests SET user_key = ? WHERE id = ?", (user_key, request_id))
+        conn.commit()
+    finally:
+        conn.close()
+
+
+def count_requests_today(user_key: str | None = None) -> int:
+    """Requests since midnight UTC, for one account or (with no user_key) for everyone."""
+    midnight = datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0).isoformat()
+    conn = _connect()
+    try:
+        if user_key is None:
+            row = conn.execute("SELECT COUNT(*) FROM requests WHERE timestamp >= ?", (midnight,)).fetchone()
+        else:
+            row = conn.execute("SELECT COUNT(*) FROM requests WHERE user_key = ? AND timestamp >= ?",
+                               (user_key, midnight)).fetchone()
+        return int(row[0])
+    finally:
+        conn.close()
+
+
+def count_users() -> int:
+    conn = _connect()
+    try:
+        return int(conn.execute("SELECT COUNT(*) FROM users").fetchone()[0])
+    finally:
+        conn.close()
+
+
+def cost_rows() -> list[sqlite3.Row]:
+    """Token counts and every cost component for each request, for savings totals."""
+    conn = _connect()
+    try:
+        return conn.execute(
+            """SELECT input_tokens, output_tokens, cost,
+                      COALESCE(verification_cost, 0) AS verification_cost,
+                      COALESCE(escalation_cost, 0) AS escalation_cost
+               FROM requests"""
+        ).fetchall()
     finally:
         conn.close()
 

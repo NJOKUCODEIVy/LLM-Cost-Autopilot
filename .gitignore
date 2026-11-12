@@ -17,3 +17,4 @@ data/load_test_progress.txt
 
 # Backup model from retraining
 models/complexity_classifier.previous.joblib
+.streamlit/secrets.toml
